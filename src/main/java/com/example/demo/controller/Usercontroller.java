@@ -34,8 +34,8 @@ public class Usercontroller {
 	}
 	
 	@PostMapping("/get/user")
-	public Optional<User> getUser(@RequestBody int id) {
-		return repo.findById(id);
+	public Optional<User> getUser(@RequestBody User user) {
+		return repo.findById(user.getId());
 	}
 	
 	@PostMapping("/get/allusers")
