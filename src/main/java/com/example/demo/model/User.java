@@ -1,14 +1,30 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
-public class User {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@NoArgsConstructor
+public class User implements Serializable {
+	
 	@Id
 	private int id;
 	private String name;
+	
+	@Builder
+	public User(@JsonProperty("id") Integer id, @JsonProperty("name") String name) {
+		this.id = id;
+		this.name = name;
+	}
 	
 	@Override
 	public String toString() {
