@@ -50,6 +50,8 @@ public class UserControllerTest {
 	    User req = new User();
 	    req.setId(2);
 	    req.setName("jey");
+	    req.setPhnumber("9877657757");
+	    req.setEmailId("prakash@goomail.com");
 	    return req;
 	  }
 	
@@ -61,7 +63,7 @@ public class UserControllerTest {
 	  @Test
 	  @Order(1)
 	  public void testAddUser() throws Exception{
-		  MvcResult result = this.mockMvc.perform(get("/add/user/" + 2 + "/" + "jey")
+		  MvcResult result = this.mockMvc.perform(get("/add/user/" + 2 + "/" + "jey" + "/" + "9877657757" + "/" + "prakash@goomail.com")
                   .contentType(MediaType.APPLICATION_JSON))
 				  .andExpect(status().is2xxSuccessful())
 				  .andReturn();

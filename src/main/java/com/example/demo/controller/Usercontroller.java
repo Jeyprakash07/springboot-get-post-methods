@@ -24,11 +24,13 @@ public class Usercontroller {
 	@Autowired
 	UserRepo repo;
 	
-	@GetMapping("/add/user/{id}/{name}")
-	public User addUser(@PathVariable("id") int id, @PathVariable("name") String name) {
+	@GetMapping("/add/user/{id}/{name}/{phnumber}/{emailId}")
+	public User addUser(@PathVariable("id") int id, @PathVariable("name") String name, @PathVariable("phnumber") String phnumber, @PathVariable("emailId") String emailId) {
 		User new_user = User.builder()
 				.id(id)
 				.name(name)
+				.phnumber(phnumber)
+				.emailId(emailId)
 				.build();
 		return repo.save(new_user);
 	}
