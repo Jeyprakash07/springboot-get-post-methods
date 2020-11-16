@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.UserRepo;
 import com.example.demo.model.User;
-import com.example.demo.model.User.UserBuilder;
+import com.example.demo.model.UserRequestBody;
 
 import lombok.Builder;
 
@@ -25,10 +25,15 @@ public class Usercontroller {
 	UserRepo repo;
 	
 	@GetMapping("/add/user/{id}/{name}/{phnumber}/{emailId}")
-	public User addUser(@PathVariable("id") int id, @PathVariable("name") String name, @PathVariable("phnumber") String phnumber, @PathVariable("emailId") String emailId) {
+	public User addUser( 
+			@PathVariable("id") int id,
+			@PathVariable("name") String name, 
+			@PathVariable("phnumber") String phnumber, 
+			@PathVariable("emailId") String emailId) {
+		String user_name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		User new_user = User.builder()
 				.id(id)
-				.name(name)
+				.name(user_name)
 				.phnumber(phnumber)
 				.emailId(emailId)
 				.build();
@@ -36,8 +41,9 @@ public class Usercontroller {
 	}
 	
 	@PostMapping("/get/user")
-	public Optional<User> getUser(@RequestBody User user) {
-		return repo.findById(user.getId());
+	public List<User> getUser(@RequestBody UserRequestBody user) {
+		String name = user.getName().substring(0, 1).toUpperCase() + user.getName().substring(1);
+		return repo.findMatchingNames(name);
 	}
 	
 	@PostMapping("/get/allusers")
@@ -45,6 +51,11 @@ public class Usercontroller {
 		return repo.findAll();
 	}
 	
-	
+	@GetMapping("/delete/user/{id}")
+	public List<User> deleteUser(@PathVariable int id) {
+		User user = repo.getOne(id);
+		repo.delete(user);
+		return repo.findAll();
+	}
 
 }

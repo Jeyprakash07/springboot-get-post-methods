@@ -21,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.example.demo.dao.UserRepo;
 import com.example.demo.model.User;
+import com.example.demo.model.UserRequestBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -39,10 +40,9 @@ public class UserControllerTest {
 	
 	ObjectMapper MAPPER = new ObjectMapper();
 	
-	protected User getUserMock() {
-		User req = new User();
-		req.setId(2);
-		System.out.println(req);
+	protected UserRequestBody getUserMock() {
+		UserRequestBody req = new UserRequestBody();
+		req.setName("j");
 		return req;
 	}
 	
@@ -86,13 +86,24 @@ public class UserControllerTest {
 		  }
 	  
 	  @Test
-		@Order(2)
-		public void GetAllUsers() throws Exception{
-			System.out.println(getUserMock());
+		@Order(3)
+		public void testGetAllUsers() throws Exception{
 		    MvcResult result = this.mockMvc.perform(post("/get/allusers")
 		                                            .contentType(MediaType.APPLICATION_JSON))
 		        .andExpect(status().is2xxSuccessful())
 		        .andReturn();
+
+		    assertThat(result.getResponse().getContentAsString()).isNotNull(); 
+
+		  }
+	  
+	  @Test
+	  	@Order(4)
+	  public void DeleteUser() throws Exception{
+		  MvcResult result = this.mockMvc.perform(get("/delete/user/" + 2)
+                  .contentType(MediaType.APPLICATION_JSON))
+				  .andExpect(status().is2xxSuccessful())
+				  .andReturn();
 
 		    assertThat(result.getResponse().getContentAsString()).isNotNull(); 
 
